@@ -3,11 +3,12 @@ package com.hotel.projects.airBnbApp.controller;
 import com.hotel.projects.airBnbApp.dto.HotelDto;
 import com.hotel.projects.airBnbApp.service.HotelService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,6 +23,13 @@ public class HotelController {
         log.info("Attempting to create new Hotel with name: {} " ,  hotelDto.getName());
         HotelDto hotel = hotelService.createNewHotel(hotelDto);
         return new ResponseEntity<>(hotel, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<HotelDto>> getAllHotels(){
+        log.info("Attempting to get All Hotels ");
+        List<HotelDto> allHotels = hotelService.getAllHotels();
+        return ResponseEntity.ok(allHotels);
     }
 
     @GetMapping("{hotelId}")
@@ -45,7 +53,7 @@ public class HotelController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("{hotelId}")
+    @PatchMapping("{hotelId}/activate")
     public ResponseEntity<Void> activateHotel(@PathVariable Long hotelId){
         log.info("Attempting Activating the hotel for hotel Id :- {}",hotelId);
         hotelService.activateHotel(hotelId);
