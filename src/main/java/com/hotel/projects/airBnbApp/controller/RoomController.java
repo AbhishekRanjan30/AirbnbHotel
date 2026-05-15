@@ -37,7 +37,7 @@ public class RoomController {
 
     @DeleteMapping("/{roomId}")
     ResponseEntity<Void> deleteRoomById(@PathVariable Long roomId){
-        roomService.deleteById(roomId);
+        roomService.deleteRoomById(roomId);
         return ResponseEntity.noContent().build();
     }
 }

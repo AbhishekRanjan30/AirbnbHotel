@@ -8,6 +8,7 @@ import com.hotel.projects.airBnbApp.repository.HotelRepository;
 import com.hotel.projects.airBnbApp.repository.RoomRepository;
 import com.hotel.projects.airBnbApp.service.InventoryService;
 import com.hotel.projects.airBnbApp.service.RoomService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -64,10 +65,14 @@ public class RoomServiceImpl implements RoomService {
         return modelMapper.map(room, RoomDto.class);
     }
 
+    @Transactional
     @Override
-    public void deleteById(Long roomId) {
-        boolean exist = roomRepository.existsById(roomId);
-        if(!exist) throw new ResourceNotFoundException("Room is not found for the room id ;- "+ roomId);
+    public void deleteRoomById(Long roomId) {
+        Room room = roomRepository
+                .findById(roomId)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("Room is not found with the room id :"+roomId));
+        inventoryService.deleteFutureInventories(room);
         roomRepository.deleteById(roomId);
     }
 
