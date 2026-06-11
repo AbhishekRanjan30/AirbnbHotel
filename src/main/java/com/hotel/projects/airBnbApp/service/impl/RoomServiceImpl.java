@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
-    private  final HotelRepository hotelRepository;
+    private final HotelRepository hotelRepository;
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final InventoryService inventoryService;
